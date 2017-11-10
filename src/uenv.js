@@ -69,6 +69,35 @@ UEnv.prototype.get = function (k, v) {
   return this.__references.get(k)
 }
 
+UEnv.prototype.any = function (keys = []) {
+  for (const key of keys) {
+    if (this.has(key)) return this.get(key)
+  }
+}
+
+UEnv.prototype.pick = function (key, properties = []) {
+  const value = this.get(key)
+  const picked = {}
+  if (!value || !this.__isPlainObject(value)) return {}
+  for (const property of properties) {
+    if (!value.hasOwnProperty(property)) continue
+    picked[property] = value[property]
+  }
+  return picked
+}
+
+UEnv.prototype.omit = function (key, properties = []) {
+  const value = this.get(key)
+  const picked = {}
+  if (!value || !this.__isPlainObject(value)) return {}
+  
+  for (const property in value) {
+    if (properties.includes(property)) continue
+    picked[property] = value[property]
+  }
+  return picked
+}
+
 UEnv.prototype.equals = function (k, v) {
   return this.__references.has(k) && this.__references.get(k) === v
 }
@@ -102,7 +131,10 @@ UEnv.prototype.use = function (name, ...args) {
     assign: this.assign.bind(this),
     set: this.set.bind(this),
     get: this.get.bind(this),
-    has: this.has.bind(this)
+    has: this.has.bind(this),
+    any: this.any.bind(this),
+    pick: this.pick.bind(this),
+    omit: this.omit.bind(this)
   }, ...args)
   return use
 }
@@ -127,6 +159,15 @@ UEnv.prototype.child = function (position, name, ...args) {
     },
     has: (k) => {
       return this.has(`${position}${this.__options.separator}${k}`)
+    },
+    any: (keys = []) => {
+      return this.any(keys.map(k => `${position}${this.__options.separator}${k}`))
+    },
+    pick: (k, properties = []) => {
+      return this.pick(`${position}${this.__options.separator}${k}`, properties)
+    },
+    omit: (k, properties = []) => {
+      return this.omit(`${position}${this.__options.separator}${k}`, properties)
     }
   }, ...args)
   return child

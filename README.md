@@ -60,7 +60,9 @@ uenv.get('nested.object.a') // 1
 uenv.get('childProperty')   // { childfoo: 'childbar', c: 9, d: 10 })
 uenv.get('jsonProperty')    // { jsonA: 1, jsonB: 2 }
 uenv.get('jsonData.jsonProperty') // { jsonA: 1, jsonB: 2 })
-
+uenv.pick('nested.object', ['b']) // { b: 2 }
+uenv.omit('nested.object', ['b']) // { a: 2 }
+uenv.any(['nested.object.c', 'nested.object.b', 'nested.object.c']) // 2
 // get entire configuration as plain javascript object
 uenv.toJSON()
 
@@ -123,35 +125,48 @@ Assigns an entire object to the configuration
 Returns a property value
 
 
-### uenv.has (key)
+#### uenv.has (key)
 
 Checks if key exists, returns a boolean
 
-### uenv.toJSON ()
+#### uenv.toJSON ()
 
 Returns a plain javascript object of all properties
 
-### uenv.plugin (name, Plugin)
+#### uenv.plugin (name, Plugin)
 
 registers a new plugin, Plugin would be constructed whenever `use` or `child` are called with its name
 
-### uenv.use (name, ...args)
+#### uenv.use (name, ...args)
 
 Initiates a plugin that'll have access to the properties, any arguments after the plugin name would be passed as arguments to the plugin itself
 this is accessible via the shorthand method `uenv.[plugin name]` eg `uenv.json()`
 
-### uenv.child (key, name, ...args)
+#### uenv.child (key, name, ...args)
 
 Initiates a plugin that'll have access to the properties at a specific position, any arguments after the plugin name would be passed as arguments to the plugin itself
 Key can be dot notated to get a child at a deeper part of the tree, any preceding keys would be created with references, this is accessible via the shorthand method `[plugin name]Child`
 
-### uenv.equals (key, value)
+#### uenv.equals (key, value)
 
 Checks if a key is equal to a value, returns a boolean
 
 #### uenv.seal (key)
 
 Seals a key, any subsequent attempts to write to this key would not change the stored value
+
+#### uenv.any (keys = [])
+
+returns the first trueish key in the array
+
+#### uenv.pick (key, properties = [])
+
+if key is a plain javascript object, only the properties listed would be returned in a new object
+
+#### uenv.omit (key, properties = [])
+
+if key is a plain javascript object, only the properties not listed would be returned in a new object
+
 
 #### uenv.setOptions (options = {})
 

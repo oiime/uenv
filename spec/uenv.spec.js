@@ -103,6 +103,36 @@ describe('#uenv.equals()', function () {
   })
 })
 
+describe('#uenv.any()', function () {
+  const instance = uenv.instance()
+  instance.set('p1', 1)
+  instance.set('p2.d', 2)
+  instance.set('p3', 3)
+
+  it('should pick right any', function () {
+    assert.equal(instance.any(['skip', 'p2.d']), 2)
+    assert.equal(instance.any(['p3', 'p2.d']), 3)
+  })
+})
+
+describe('#uenv.pick()', function () {
+  const instance = uenv.instance()
+  instance.set('obj', { a: 1, b: 2, c: 3 })
+
+  it('should pick correct properties', function () {
+    assert.deepEqual(instance.pick('obj', ['a', 'b']), { a: 1, b: 2 })
+  })
+})
+
+describe('#uenv.omit()', function () {
+  const instance = uenv.instance()
+  instance.set('obj', { a: 1, b: 2, c: 3 })
+
+  it('should omit correct properties', function () {
+    assert.deepEqual(instance.omit('obj', ['c']), { a: 1, b: 2 })
+  })
+})
+
 describe('#uenv.__isPlainObject()', function () {
   const instance = uenv.instance()
 
