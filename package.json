@@ -1,10 +1,13 @@
 {
   "name": "uenv",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "hierarchical configuration manager with zero dependencies",
   "main": "index.js",
   "scripts": {
     "test": "mocha spec/*.spec.js"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   },
   "keywords": [
     "configuration",

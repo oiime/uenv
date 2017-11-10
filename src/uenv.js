@@ -29,21 +29,25 @@ UEnv.prototype.set = function (k, v, { references = true } = {}) {
 
   const leafs = k.split(this.__options.separator)
   const last = leafs.pop()
-  let props = this.__props
 
-  for (const leaf of leafs) {
+  let props = this.__props
+  let position = ''
+
+  while (leafs.length > 0) {
+    const leaf = leafs.shift()
+    position = position + ((position.length > 0 && this.__options.separator) || '') + leaf
     let obj
     if (!props.hasOwnProperty(leaf)) {
       obj = {}
       // we need to backtrace references here
-      this.set(leafs.join(this.__options.separator), obj, { references: true })
+      this.set(position, obj, { references: true })
     } else {
       obj = props[leaf]
     }
     props[leaf] = obj
     props = props[leaf]
-    leafs.shift()
   }
+
   props[last] = v
   this.__setReferences(k, props[last], { references })
 }
@@ -85,8 +89,8 @@ UEnv.prototype.plugin = function (name, Cls) {
     return this.use(name, ...args)
   }
 
-  this[`${name}Leaf`] = (position, ...args) => {
-    return this.leaf(position, name, ...args)
+  this[`${name}Child`] = (position, ...args) => {
+    return this.child(position, name, ...args)
   }
 }
 
@@ -103,15 +107,17 @@ UEnv.prototype.use = function (name, ...args) {
   return use
 }
 
-UEnv.prototype.leaf = function (position, name, ...args) {
+UEnv.prototype.child = function (position, name, ...args) {
   assert.ok(this.__plugins.hasOwnProperty(name), 'unregistered plugin ' + name)
 
-  const leaf = new this.__plugins[name]({
+  const child = new this.__plugins[name]({
     toJSON: () => {
       return this.get(position)
     },
     assign: (obj) => {
-      this.set(position, obj)
+      for (let k in obj) {
+        this.set(`${position}${this.__options.separator}${k}`, obj[k])
+      }
     },
     set: (k, v) => {
       this.set(`${position}${this.__options.separator}${k}`, v)
@@ -123,7 +129,7 @@ UEnv.prototype.leaf = function (position, name, ...args) {
       return this.has(`${position}${this.__options.separator}${k}`)
     }
   }, ...args)
-  return leaf
+  return child
 }
 
 UEnv.prototype.instance = function () {

@@ -9,69 +9,88 @@ npm install --save uenv
 
 ## by example
 
+#### kitchen sink
 ```javascript
+const path = require('path')
 const uenv = require('uenv')
 
 // import enviorment variables into configuration
-uenv.use('env')
+uenv.env()
 
 // assign an object to the root of the configuraiton tree
 uenv.assign({
   foo: 'bar',
   nested: {
-    value: {
+    object: {
       a: 1
     }
   }
 })
 
-uenv.set('nested.value.b', 2)
+uenv.set('nested.object.b', 2)
 
 // creates a new child with the literal plugin
-const child = uenv.literalLeaf('child')
+const child = uenv.literalChild('childProperty')
 
-// sets a value referenced as 'child.subfoo'
-child.set('subfoo', 'subvar')
+// sets a value referenced as 'child.childfoo'
+child.set('childfoo', 'childbar')
 
 // assign multiple values to child
 child.assign({
-    c: 9,
-    d: 10
+  c: 9,
+  d: 10
 })
 
 // assign json contents to configuraiton root
-uenv.json('/path/to/file.json')
+// assuming json1.json contents is { "jsonProperty": { "jsonA": 1, "jsonB": 2 } }
+uenv.json(path.join(__dirname, 'assets', 'json1.json'))
 
 // assign json contents to { jsonData: {} }
-uenv.jsonLeaf('jsonData','/path/to/file.json' )
+uenv.jsonChild('jsonData', path.join(__dirname, 'assets', 'json1.json'))
 
 // seal a property against changes
 uenv.seal('foo')
 uenv.set('foo', 'notbar')
 
-uenv.get('foo')               // bar
-uenv.equals('foo', 'bar')     // true
-uenv.get('nested')            // { value: { a: 1, b: 2 } }
-uenv.get('nested.value')      // { a: 1, b: 2 }
-uenv.get('nested.value.a')    // 1
-uenv.get('nested.value.b')    // 2
+uenv.get('foo')             // bar
+uenv.equals('foo', 'bar')   // true
+uenv.get('nested')          // { object: { a: 1, b: 2 } }
+uenv.get('nested.object')   // { a: 1, b: 2 }
+uenv.get('nested.object.a') // 1
+uenv.get('childProperty')   // { childfoo: 'childbar', c: 9, d: 10 })
+uenv.get('jsonProperty')    // { jsonA: 1, jsonB: 2 }
+uenv.get('jsonData.jsonProperty') // { jsonA: 1, jsonB: 2 })
 
+// get entire configuration as plain javascript object
 uenv.toJSON()
-// {
-//     foo: 'bar',
-//     nested: {
-//       value: {
-//         { a: 1, b: 2 }
-//       }
-//     },
-//     child: {
-//       subfoo: 'subvar',
-//       c: 9,
-//       d: 10
-//     }
-// }
 
 ```
+
+#### Useless plugin
+```javascript
+const uenv = require('uenv')
+
+function MyPlugin (methods, arg1) {
+  // methods are { set, get, has, assign, toJSON }
+  // and would behave depending on the plugin mounted position
+  this.__methods = methods
+  this.__arg1 = arg1
+}
+
+MyPlugin.prototype.set = function (k, v) {
+  this.__methods.set(k, `${this.__arg1}-${v}`)
+}
+
+uenv.plugin('useless', MyPlugin)
+
+const useless = uenv.useless('addthis')
+
+useless.set('foo', 'bar')
+
+uenv.get('foo') // addthis-bar
+
+```
+
 ## plugins
 
 #### built-in
@@ -79,8 +98,8 @@ uenv.toJSON()
 * env       - loads the environment variables into the configuration as-is
 * json      - allows reading configuration from a json file, can also be used to store the file
 
-#### external repositories
-* [`uenv-s3-plugin`][https://github.com/oiime/uenv-s3-plugin] - stores and retrieves configuration from AWS S3, allows encryption before storage
+#### external plugins
+* (`uenv-s3-plugin`)[https://github.com/oiime/uenv-s3-plugin] - stores and retrieves configuration from AWS S3, allows encryption before storage
 
 ## API
 
@@ -114,16 +133,17 @@ Returns a plain javascript object of all properties
 
 ### uenv.plugin (name, Plugin)
 
-registers a new plugin, Plugin would be constructed whenever `use` or `leaf` are called with its name
+registers a new plugin, Plugin would be constructed whenever `use` or `child` are called with its name
 
 ### uenv.use (name, ...args)
 
 Initiates a plugin that'll have access to the properties, any arguments after the plugin name would be passed as arguments to the plugin itself
+this is accessible via the shorthand method `uenv.[plugin name]` eg `uenv.json()`
 
-### uenv.leaf (key, name, ...args)
+### uenv.child (key, name, ...args)
 
 Initiates a plugin that'll have access to the properties at a specific position, any arguments after the plugin name would be passed as arguments to the plugin itself
-Key can be dot notated to get a leaf at a deeper part of the tree, any preceding keys would be created with references
+Key can be dot notated to get a child at a deeper part of the tree, any preceding keys would be created with references, this is accessible via the shorthand method `[plugin name]Child`
 
 ### uenv.equals (key, value)
 
@@ -147,25 +167,24 @@ Allows changes internal options within uenv
 
 
 #### uenv.instance ()
+Gets a standalone instance of uenv that does not store its properties at the module itself
 
 
 ## jsonPlugin methods
-
-Gets a standalone instance of uenv that does not store its properties at the module itself
 
 #### uenv.json (filename, { required = true })
 * filename - required argument if required is set to true (default), filename to load json from
 * options
   * required - if set to false the plugin would ignore any errors trying to load the json file
 
-#### uenv.jsonLeaf (key, filename, { required = true })
+#### uenv.jsonChild (key, filename, { required = true })
 * key to place object in
 * filename - required argument if required is set to true (default), filename to load json from
 * options
   * required - if set to false the plugin would ignore any errors trying to load the json file
 
 
-#### [jsonleaf].save (filename)
+#### [jsonChild].save (filename)
 
 saves current configuration to json file, if filename is not provided it'll save to the same filename set up during construction
 

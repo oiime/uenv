@@ -1,6 +1,6 @@
-function PluginLiteral ({ get, set, has, assign }, initialData) {
-  Object.assign(this, { get, set, has, assign })
-  if (initialData) assign(initialData)
+function PluginLiteral (methods, initialData) {
+  Object.assign(this, methods)
+  if (initialData) methods.assign(initialData)
 }
 
 module.exports = PluginLiteral

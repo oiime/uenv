@@ -15,17 +15,17 @@ describe('#uenv.json()', function () {
   })
 })
 
-describe('#uenv.jsonLeaf()', function () {
+describe('#uenv.jsonChild()', function () {
   const filename = path.join(__dirname, 'assets', 'test.json')
   const origin = JSON.parse(fs.readFileSync(filename, 'utf8').toString())
   const instance = uenv.instance()
-  const leaf = instance.jsonLeaf('child', filename)
+  const child = instance.jsonChild('child', filename)
 
   it('should get root properties from root', function () {
     assert.deepEqual(instance.get('child'), origin)
   })
 
-  it('should get root properties from leaf', function () {
-    assert.deepEqual(leaf.toJSON(), origin)
+  it('should get root properties from child', function () {
+    assert.deepEqual(child.toJSON(), origin)
   })
 })
