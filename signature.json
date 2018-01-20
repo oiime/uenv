@@ -1,0 +1,61 @@
+{
+  "version": "v1alpha",
+  "files": [
+    {
+      "path": "package.json",
+      "sha512": "25073c2633d6e6ec92521c6fc62ff7b314fcc64d765329bc603e68b727af8f641c5720db5494a81e311cf9dddbf7fc10c739958271d1c9175f13c98d1346afb3"
+    },
+    {
+      "path": ".eslintrc",
+      "sha512": "da08a46ae54cfe7e4e0625eaf78eec7a05ff0840ce56c40f4994e00ecc64660db27d6cad12812f8d0f4098a1cb7a33e2dbc24d924279acda07962ade56fd40a7"
+    },
+    {
+      "path": "index.js",
+      "sha512": "fb6fded008de9d7f4e63bd9daa23cb8c4f5809908f9c391867ae25a9956abbf7ae4b1a3d3e03d13d7e7b03e2ca51004e536f6420aafc9066ffaba6b5cf92dcdf"
+    },
+    {
+      "path": "LICENSE",
+      "sha512": "65ed9883dcc94b1cbdf1a008ca29c7dc0edcad45091ddaf8aea2230f75572a7f986507b9b3575efe2853a5c7709fb88e152444400f0fea06e06107e619fd8a1b"
+    },
+    {
+      "path": "README.md",
+      "sha512": "d39a6133d1ce23a2f651f1d8fe070b7b96423f210ebd2360bbd72ea338e87348495f05c2843d1cbbaf7e0248d9903b57f2bfcb14ad1b90a5086b7e5b711f25e5"
+    },
+    {
+      "path": "spec/assets/test.json",
+      "sha512": "381643ce2e0705daf9526e9f5fc14b5131a41324a6ccd35c3d2ccbbc672ebc27248e9fc30b01a33c0847f86bf7c4f85269199007bf16d89164dd5ee47831fef7"
+    },
+    {
+      "path": "spec/json.spec.js",
+      "sha512": "28ab50f89b3ba3714905252d162abf1e15bfc535f5eeaeab7f78145cd5a5171769fe391d54133cd9b870c138d26aab493a6a3ee8da7433ac8b7788d2b8664136"
+    },
+    {
+      "path": "spec/literal.spec.js",
+      "sha512": "f5b9bfaf08af09bdf407eef1535a253a200aef6876d27650f6fecfc8328e374b3849b6099b880d0f7e9f9b637a4c8b5663d8477ab4202cdfce2eadfd2ab59800"
+    },
+    {
+      "path": "spec/uenv.spec.js",
+      "sha512": "137e757de0af53ca77e183cdc2efc0928ad178f2fa7e39980b7479dce5afb1016ea4019609193b6a0a2246da2f4f26900233e5ebfd23399e57875cd7924957a9"
+    },
+    {
+      "path": "src/plugins/env.js",
+      "sha512": "8261a71fc333579394f248e50ee7d82f5657b0083db9785cfc186504d2f8131d3826ac76e39cdf18a257324c314d01d86ad04d15455e942f995401ebc47881ea"
+    },
+    {
+      "path": "src/plugins/json.js",
+      "sha512": "d494ec0a5fde01ee0b41b9517a26f76843c83566f051efbb3df6758a3e73179b836bb57256fa634e132bc6181a08c3a3983c744757b9792faa5ab19ee2760e6a"
+    },
+    {
+      "path": "src/plugins/literal.js",
+      "sha512": "b220cf15fa53fc3bd458c5679c0f418f6236a18e3d9e115cb78d573e00acd7cd0171c9eb953930e97f68d66d51448c86d0e07cd7b6ea8423491774f0cd120f0a"
+    },
+    {
+      "path": "src/uenv.js",
+      "sha512": "dac9f6191db13c24bd0d68bde0a8497fc928db4df388a707d98a633a0f31086133be0905c00b1b7a25075309db38dec3b9e6e1f7899ec83e6cb2dcf3b4a1e789"
+    }
+  ],
+  "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJaY2KuCRA5b/yViXytfgAAlroQAEd953i4kKELltEjqYlnmlDS\noR3fW1jzdpWoaySvKlfW5QMpaWhlg5L8uKAZ5ZuDNXM/5hNmhBScuHhklxKOxvaF\nRNlUsLKnJGAsDmrMGSn0C9KIiisZiRSnzsrEt4O6f5mmGzSRbXvZNmVdnCQpShB7\nJatq/dhQ0Hz0NRnoR43ojTJjJl5FdkNxNWUjHlh8kesWOJ56VtFIBs9H8vJ3brCP\nQS6QHragqGnzcqaiCOWqXJqlovq1nojYvTNLDW8hQIGmpHUtojvzrGx0e5YUSxyj\nv4h8UdaB81yebVKURF4rHILNWF/JFSgVQfjbcfSak7x0aKgfVoQy31gt9W8uJeZx\n0fbtodnGB6jWdlfRTao4vVEvxntZqWXZcbSnBltAh2de1p1hd5tYJaoYcF/5TyaE\nXJfCeFN+ylXp/DGf9N25SvesHKML0/yaMSYiwA2loevLpCnqqo9VEB3nNB8U9UUN\nVTretg+Q0mrvJoNfMCOguI2rnor90+7yMW+Wi1LWT3lomB3E+8CKhS05USppiDi3\nkWFbLqqpP734CwTqHj7G1j6yAo75AdA0bbC9WpxUDwfrKrNKF8UCLohvwSpHmJIV\nrlIyYn036fHWQDDbLP+LVBvoJEf/yKAB5GB+lVNmyeHlGjyiqDPCs0EtG+CBWNvR\nqlsiV1o5kvLORSsUFAEF\n=OotQ\n-----END PGP SIGNATURE-----\n",
+  "identity": {
+    "keybaseUser": "oiime"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "uenv",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "hierarchical configuration manager with zero dependencies",
   "main": "index.js",
   "repository": {
